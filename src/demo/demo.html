@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <style>
+        .class1 {
+            color: cadetblue;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <p>{{message | toUpper}}</p>
+    <p v-html="message"></p>
+    Fruit:<input v-model="fruit">
+    <!--    条件语句-->
+    <div v-if="fruit == 'a'" @click="onClick">apple</div>
+    <div v-if="fruit == 'b'">banana</div>
+
+    <!--    循环语句-->
+    <div>
+        <div v-for="(item, a) in annimals">
+            {{item.name + ':' + item.color}}---{{a}}
+        </div>
+        <div v-for="(key, value, b) in annimals[0]">
+            {{key}}:{{value}}--{{b}}
+        </div>
+        <div v-for="n in 10">
+            {{n}}
+        </div>
+    </div>
+
+    <!--    计算属性-->
+    <p>{{reverseMessage}}</p>
+
+    <!--    监听属性-->
+    <input v-model="name">
+
+    <!--    样式绑定-->
+    <div :class="{class1:true}">aaa</div>
+
+    <!--    组件-->
+    <runoob hello="hello"></runoob>
+</div>
+
+<script>
+    Vue.component('runoob', {
+        template: '<div>{{hello}}! Runoob!</div>',
+        props: ['hello']
+    });
+    new Vue({
+        el: '#app',
+        data: {
+            message: "This is a message",
+            fruit: 'c',
+            annimals: [{name: 'dog', color: 'white'}, {name: 'cat', color: 'yellow'}, {name: 'fox', color: 'white'}],
+            name: ''
+        },
+        computed: {
+            reverseMessage() {
+                return this.message.split(' ').reverse().join('');
+            }
+        },
+        watch: {
+            name() {
+                alert(1);
+            }
+        },
+        methods: {
+            onClick: function () {
+                alert("123");
+            }
+        },
+        filters: {
+            toUpper(value) {
+                return value.toUpperCase();
+            }
+        }
+    });
+</script>
+</body>
+</html>

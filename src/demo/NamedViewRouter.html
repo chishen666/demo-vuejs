@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+<div id="app">
+    <router-link to="/view">FOO</router-link>
+
+    <div style="height: 300px; width: 500px; border: 1px solid blue">
+        <div style="height:20%; background-color: aquamarine">
+            <router-view name="top"></router-view>
+        </div>
+        <div style="height:80%; width:20%; float: left; background-color: cadetblue">
+            <router-view name="left"></router-view>
+        </div>
+        <div style="height:80%; width:80%; float: left; ">
+            <router-view name="content"></router-view>
+        </div>
+
+    </div>
+
+
+</div>
+<script type="module">
+    function getTopComponent(menus) {
+        let topComponent = {};
+        for (let menu of menus) {
+            topComponent.template += '<p>' + menu.name + '</p>';
+        }
+    }
+
+    function getLeftComponent(leftmunus) {
+        let leftComponent = {};
+        for (let leftmunu of leftmunus) {
+            leftComponent.template += '<div>' + leftmunu.name + '</div>';
+        }
+    }
+
+    const menus = [{
+        code: 'top1',
+        name: '系统管理',
+        children: [{code: 'left11', name: '国际化管理'}, {code: 'left12', name: '权限管理'}]
+    }, {
+        code: 'top2',
+        name: '主数据管理',
+        children: [{code: 'left21', name: '模型管理'}, {code: 'left22', name: '数据管理'}]
+    }];
+
+    const routes = [];
+    const topComponent = getTopComponent(menus);
+
+    let topRoute = {path: {}, components: {}};
+    topRoute.path = "/:top";
+    topRoute.components.top = topComponent;
+    routes.push(topRoute);
+
+    let leftRoute = {path: {}, components: {}};
+    leftRoute.path = "/:top/:left";
+    leftRoute.components.top = topComponent;
+    leftRoute.components.left = getLeftComponent(children);
+    routes.push(leftRoute);
+
+    debugger
+    const router = new VueRouter({routes});
+
+    new Vue({router}).$mount("#app");
+
+</script>
+</body>
+</html>

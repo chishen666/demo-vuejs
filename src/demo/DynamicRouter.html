@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+<div id="app">
+    <router-link to="/country/china/user/zhangsan">ZhangSan</router-link>
+    <router-link to="/country/america/user/wangwu">WangWu</router-link>
+
+    <router-view></router-view>
+</div>
+<script type="module">
+
+    const User = {
+        template: '<div>This is {{$route.params.id}} come from {{$route.params.country}}!</div>'
+        , watch: {
+            '$route'(to, from) {
+                alert(to.path);
+            }
+        },
+        beforeRouteUpdate(to, from, next) {
+            alert(from.path);
+            next();
+        }
+    };
+
+    const routes = [{
+        path: '/country/:country/user/:id',
+        component: User
+    }]
+
+    const router = new VueRouter({routes});
+
+    new Vue({router}).$mount("#app");
+
+</script>
+</body>
+</html>
